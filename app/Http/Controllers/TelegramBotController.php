@@ -11,7 +11,6 @@ class TelegramBotController extends Controller
 {
     public function webhook(Request $request)
     {
-        Log::info('🚀 Webhook Hit', ['data' => $request->all()]);
         $data = $request->all();
         $chat_id = $data['message']['chat']['id'];
         $text = $data['message']['text'] ?? '';
@@ -22,7 +21,7 @@ class TelegramBotController extends Controller
                 'user_id' => $chat_id,
                 'task' => $taskText
             ]);
-            $this->sendMessage($chat_id, "Task added: $taskText");
+            $this->sendMessage($chat_id, "Added-> $taskText");
         } elseif ($text === '/list') {
             $tasks = Task::where('user_id', $chat_id)->get();
             $reply = "Your tasks:\n";
